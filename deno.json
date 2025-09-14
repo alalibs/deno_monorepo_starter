@@ -1,0 +1,15 @@
+{
+  "workspace": ["./apps/*", "./packages/*"],
+  "tasks": {
+    "setup:git-init": "bash ./.config/init/reinit_git.sh",
+    "setup:scaffold": "bash ./.config/init/scaffold.sh",
+    "setup:hooks": "cp ./.config/hooks/* .git/hooks/ && chmod +x .git/hooks/*",
+    "setup": "deno task setup:git-init && deno task setup:scaffold && deno task setup:hooks && mv ./.config/init/final.deno.json ./deno.json && rm -rf ./.config/init",
+    "test": "deno test --allow-all --import-map=deno.json",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[1;35m'
+NC='\033[0m' # No Color
+
+SPACING="  "
+
+printf "${MAGENTA}📝 Commit Message Check${NC}\n"
+
+commit_msg=$(cat "$1")
+if ! echo "$commit_msg" | grep -Eq '^(revert: )?(feat|fix|refactor|perf|style|test|docs|chore)(\(.+\))?: .{1,50}'; then
+    printf "${SPACING}${RED}❌ Invalid commit message format.${NC}\n\n"
+    printf "${SPACING}${YELLOW}Please use Conventional Commits format:${NC} ${CYAN}type(scope): message${NC}\n\n"
+    printf "${SPACING}${YELLOW}Allowed types:${NC}\n"
+    printf "${SPACING}  ${BLUE}feat${NC}     : new feature\n"
+    printf "${SPACING}  ${BLUE}fix${NC}      : bug fix\n"
+    printf "${SPACING}  ${BLUE}refactor${NC} : code refactoring\n"
+    printf "${SPACING}  ${BLUE}perf${NC}     : performance improvement\n"
+    printf "${SPACING}  ${BLUE}style${NC}    : formatting, missing semi colons, etc.\n"
+    printf "${SPACING}  ${BLUE}test${NC}     : adding or updating tests\n"
+    printf "${SPACING}  ${BLUE}docs${NC}     : documentation\n"
+    printf "${SPACING}  ${BLUE}chore${NC}    : build process or auxiliary tools\n\n"
+    printf "${SPACING}${YELLOW}scope     : optional, module or part affected\n"
+    printf "${SPACING}${YELLOW}message   : short description (max 50 characters)\n\n"
+    printf "${SPACING}${YELLOW}Example:${NC} ${CYAN}feat(auth): add OAuth2 support${NC}\n\n"
+    exit 1
+else
+    printf "${SPACING}${GREEN}✅ Commit message follows Conventional Commits.${NC}\n\n"
+fi

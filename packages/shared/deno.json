@@ -1,0 +1,10 @@
+{
+  "name": "@scope/shared",
+  "tasks": {
+    "test": "deno test -A --watch"
+  },
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "imports": {}
+}

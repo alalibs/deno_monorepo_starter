@@ -1,0 +1,28 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.log
+.vscode/
+.idea/
+
+# Deno cache
+deno.lock
+.deno/
+.deno.test/
+
+# Build artifacts
+/dist/
+/build/
+/target/
+/out/
+
+# Coverage reports
+coverage/
+
+# Env / secrets
+.env
+.env.*
+.hidden/

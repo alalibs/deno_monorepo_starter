@@ -1,0 +1,50 @@
+#!/bin/sh
+
+DIRECTORIES="src/"
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+BLUE='\033[0;34m'
+
+printf "\n"
+
+STEP_WIDTH=15
+
+printf "${CYAN}📝 Pre-commit${NC}\n"
+printf "  ${YELLOW}🧹 Formatting${NC}"
+printf "%*s" $((STEP_WIDTH - 12)) ""
+deno fmt --check $DIRECTORIES > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    printf "${RED} ✗${NC}\n"
+    deno fmt --check $DIRECTORIES
+    exit 1
+else
+    printf "${GREEN} ✓${NC}\n"
+fi
+
+printf "  ${YELLOW}🧭 Lint${NC}"
+printf "%*s" $((STEP_WIDTH - 7)) ""
+deno lint $DIRECTORIES > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    printf "${RED} ✗${NC}\n"
+    deno lint $DIRECTORIES
+    exit 1
+else
+    printf "${GREEN} ✓${NC}\n"
+fi
+
+printf "  ${YELLOW}🧪 Tests${NC}"
+printf "%*s" $((STEP_WIDTH - 8)) ""
+TEST_RESULT=$(deno task tests --quiet 2>&1 | grep -v "^Task " | tail -n 1)
+if echo "$TEST_RESULT" | grep -q "failed"; then
+    printf "${RED} ✗${NC}\n"
+    printf "${RED}  Some tests failed. Run ${BLUE}deno task tests${NC} for more details.\n"
+    printf "\n"
+    exit 1
+else
+    printf "${GREEN} ✓${NC}\n"
+fi
+
+printf "\n"
