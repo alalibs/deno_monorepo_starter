@@ -25,7 +25,7 @@ deno task setup
 
 ## Fish function
 
-You can scaffold a new app with a online command with this fish function to place in `~/.config/fish/config.fish`.
+You can scaffold a new app with a one line command with this fish function to place in `~/.config/fish/config.fish`.
 
 ```bash
 nano ~/.config/fish/config.fish
